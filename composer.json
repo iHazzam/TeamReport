@@ -5,7 +5,8 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "rossedman/teamwork": "~1.0"
+        "rossedman/teamwork": "~1.0",
+        "arcanedev/log-viewer": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

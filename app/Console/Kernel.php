@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \TeamReport\Console\Commands\GenerateReports::class,
+        \TeamReport\Console\Commands\SendEmailOverBudget::class,
     ];
 
     /**
@@ -26,5 +27,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('reports:generate')
                  ->dailyAt('07:00');
+        $schedule->command('overbudget:sendemail')
+                 ->dailyAt('07:30');
     }
 }

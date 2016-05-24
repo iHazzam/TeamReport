@@ -1,7 +1,6 @@
 <html>
     <head>
         <title>TeamReport</title>
-        <link rel="shortcut icon" href="favicon.png">
         <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
         <script type="text/javascript" src="{{ elixir('js/app.js') }}"></script>
     </head>

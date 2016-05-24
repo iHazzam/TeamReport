@@ -13,6 +13,6 @@ Route::get('/', ['as' => 'home', function() {
     return view('spa');
 }]);
 
-Route::any('{undefinedRoute}', function () {
-    return Redirect::to('/');
-})->where('undefinedRoute', '([A-z\d-\/_.]+)?');
+//Route::any('{undefinedRoute}', function () {
+//    return Redirect::to('/');
+//})->where('undefinedRoute', '([A-z\d-\/_.]+)?');

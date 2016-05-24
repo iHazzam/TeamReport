@@ -8,6 +8,9 @@ TeamReport.ProjectsSummaryView = require('./ProjectsSummaryView');
 
 TeamReport.ProjectsView = Backbone.View.extend({
     selector: '#template-projects',
+    events: {
+        "change #drop select" : "selected"
+    },
 
     initialize: function() {
         this.template = _.template($(this.selector).html());
@@ -35,6 +38,28 @@ TeamReport.ProjectsView = Backbone.View.extend({
         $('#team-report').html(this.$el);
 
         return this;
+    },
+
+    selected: function() {
+        var val = $('option:selected').val();
+        switch(val)
+        {
+            case 'atoz':
+                console.log("atoz");
+                break;
+            case 'ztoa':
+                console.log("ztoa");
+                break;
+            case 'ob':
+                console.log("ob");
+                break;
+            case 'pop':
+                console.log("pop");
+                break;
+            default:
+                console.log("oops...");
+
+        }
     }
 });
 

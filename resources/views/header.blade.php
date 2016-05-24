@@ -17,9 +17,16 @@
         </div>
     </div>
 </header>
-
 <div id="menu" class="hidden" data-title="Controls">
     <ul class="list-unstyled">
         <li><a href="/generate">Generate Report</a></li>
+        <hr>
+        <span  class="centerme"><b>Sort Cards</b></span>
+        <select id="drop">
+            <option value="atoz">A-Z</option>
+            <option value="ztoa">Z-A</option>
+            <option value="ob">% over budget</option>
+            <option value="pop">Popularity</option>
+        </select>
     </ul>
 </div>

@@ -1,7 +1,7 @@
-<script type="text/html" data-tag="li" class="project-summary col-xs-12 col-sm-6 col-md-4 col-lg-3" id="template-project-summary">
+<script type="text/html" data-tag="li" class="project-summary col-xs-12 col-sm-6 col-md-4 col-lg-3 max-height" id="template-project-summary">
     <a href="/#projects/<%= name %>">
         <div class="info">
-            <h3><%= name %></h3>
+            <h3><%= (name.length > 30) ? name.substring(0,26).concat("...") : name %></h3>
             <span class="id">#<%= id %></span>
             <p><%= company %></p>
         </div>

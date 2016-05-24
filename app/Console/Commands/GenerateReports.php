@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Bus;
 use Teamwork;
 use Storage;
+use TeamReport\Models\Project;
+use DateTime;
 
 class GenerateReports extends Command
 {
@@ -64,25 +66,49 @@ class GenerateReports extends Command
         foreach ($projects as $project) {
             if (! $this->argument('amount') || $i < $this->argument('amount')) {
                 $projectId = (int) $project['id'];
+                //Check if project model exists
+                $project_model = Project::where('project_id', '=', $projectId)->first();
+                if ($project_model === NULL)//if it doesn't exist, create it
+                {
+                    $project_model = new Project;
+                    $project_model->project_id = $projectId;
+                }
+
                 $tasklistsArray[$projectId] = [];
                 $tasklistsArray[$projectId]['id'] = $projectId;
                 $tasklistsArray[$projectId]['name'] = $project['name'];
                 $tasklistsArray[$projectId]['company'] = $project['company']['name'];
 
                 $tasklists = Teamwork::project($projectId)->tasklists()['tasklists'];
+                $budget_sum = 0;
+                $budget_used_sum = 0;
                 foreach ($tasklists as $tasklist) {
                     $tasklistId = (int) $tasklist['id'];
                     $tasklistName = $this->getTasklistName($tasklist['name']);
-
+                    $local_budget = $this->getTasklistbudget($tasklist['name']);
+                    $local_used = (float) Teamwork::tasklist((int) $tasklist['id'])->timeTotal()['projects'][0]['tasklist']['time-totals']['total-hours-sum'];
                     $tasklistsArray[$projectId]['tasklists'][] = [
                         'id' => $tasklistId,
                         'name' => $tasklistName,
-                        'budget' => $this->getTasklistbudget($tasklist['name']),
-                        'used' => (float) Teamwork::tasklist((int) $tasklist['id'])->timeTotal()['projects'][0]['tasklist']['time-totals']['total-hours-sum']
+                        'budget' => $local_budget,
+                        'used' => $local_used
                     ];
+                    $budget_sum = $local_budget + $budget_sum; //keep the running total of budget
+                    $budget_used_sum =  $local_used + $budget_used_sum; //keep running total of used
+                }
+                if($project_model->over_budget_at === null) //if budget has not yet gone over
+                {
+                  $project_model->budget = $budget_sum;
+                  $project_model->budget_used = $budget_used_sum;
+                  if($budget_used_sum > $budget_sum)
+                  {
+                      date_default_timezone_set('Europe/London');
+                      $project_model->over_budget_at = date('dmy'); //set that today the budget went over
+                  }
                 }
 
                 $this->output->progressAdvance();
+                $project_model->save();
             }
             $i++;
         }

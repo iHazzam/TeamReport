@@ -41,10 +41,15 @@
                         background: $brand-primary;
                         .unit { color: $brand-primary + 100%; }
                     }
+                    &.over {
+                      background-color: antiquewhite;
+                    }
                 }
+
             }
             .key { color: $dark - 25%; }
             .unit { color: $light - 75%; }
+
             thead th {
                 font-weight: bold;
                 color: $brand-primary;

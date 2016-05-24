@@ -9,7 +9,6 @@ TeamReport.Workspace = require('./router');
 $(function() {
     new TeamReport.Workspace();
     Backbone.history.start({ pushState: false });
-
     // Burger menu
     var burger = $('#menu-switch');
     var menu = $('#menu');
